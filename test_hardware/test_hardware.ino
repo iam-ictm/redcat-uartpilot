@@ -27,7 +27,7 @@ void setup() {
   digitalWrite(pin_led, HIGH);
   delay(2000);
   digitalWrite(pin_led, LOW);
-  Serial.write("Initialized!\n\r");
+  Serial.print("INITIALIZED!\n");
 }
 
 void loop() {
@@ -44,6 +44,8 @@ void loop() {
   }
 
   if (start) {
+    Serial.print("TEST START\n");
+
     CAN_FRAME frame;
     frame.id = 0x23;
     frame.length = 8;
@@ -52,20 +54,20 @@ void loop() {
     digitalWrite(pin_led, HIGH);
     delay(200);
     digitalWrite(pin_led, LOW);
-    Serial.write("Testing Serial1 port...\n\r");
+    Serial.print("Testing Serial1 port...\n");
     if (Serial1.available() > 0) {
-      Serial1.write("Received: ");
+      Serial1.print("Received: ");
       Serial1.print(Serial1.readString());
-      Serial1.write("\n\r");
+      Serial1.print("\n");
     } else {
-      Serial1.write("Waiting...\n\r");
+      Serial1.print("Waiting...\n");
     }
     delay(1000);
 
     digitalWrite(pin_led, HIGH);
     delay(200);
     digitalWrite(pin_led, LOW);
-    Serial.write("Testing Can0 port...\n\r");
+    Serial.print("Testing Can0 port...\n");
     frame.data.high = 0x00000000;
     Can0.sendFrame(frame);
     Can0.sendFrame(frame);
@@ -75,7 +77,7 @@ void loop() {
     digitalWrite(pin_led, HIGH);
     delay(200);
     digitalWrite(pin_led, LOW);
-    Serial.write("Testing Can1 port...\n\r");
+    Serial.print("Testing Can1 port...\n");
     frame.data.high = 0x11111111;
     Can1.sendFrame(frame);
     Can1.sendFrame(frame);
@@ -90,5 +92,7 @@ void loop() {
     delay(500);
     digitalWrite(pin_led, LOW);
     start = false;
+
+    Serial.print("TEST END\n");    
   }
 }
