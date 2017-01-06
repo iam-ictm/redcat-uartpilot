@@ -30,8 +30,8 @@ namespace UARTPilot {
       return checksum_correct;
     }
 
-    inline boolean getMessage() {
-      return msg;
+    inline String getMessage() {
+      return message;
     }
 
   private:
@@ -40,6 +40,6 @@ namespace UARTPilot {
     int offset;
     int checksum_offset;
     boolean checksum_correct;
-    String msg;
+    String message;
   };
 };

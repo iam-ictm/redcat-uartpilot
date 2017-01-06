@@ -51,10 +51,10 @@ namespace UARTPilot {
         }
 
         // message complete, calculate checksum and return
-        if (checksum_offset > 0 && offset >= checksum_offset + 2) {
+        if (checksum_offset > 0 && offset == checksum_offset + 2) {
           data[offset] = 0;
           offset = -1;
-          msg = String(data).substring(0, checksum_offset);
+          message = String(data).substring(0, checksum_offset);
           checksum_correct = parity == strtol(&data[checksum_offset], NULL, 16) ? true : false;
           return checksum_offset;
         }
@@ -66,11 +66,10 @@ namespace UARTPilot {
 
   /**
    * Serial debug output of a received message
-   * @param msg_len length of the message
    */
   void Parser::debugMessage() {
-    Serial.print("Got msg: '");
-    Serial.print(msg);
+    Serial.print("Got message: '");
+    Serial.print(message);
     Serial.print("' (len: ");
     Serial.print(checksum_offset);
     Serial.print("), ");
