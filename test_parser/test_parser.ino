@@ -30,7 +30,9 @@ void loop() {
     msg_len = parser.parse(Serial1.read());
   }
 
-  if (msg_len > 0)
+  if (msg_len > 0) {
     parser.debugMessage();
+    if (parser.isChecksumCorrect()) Serial.print("getMessage: " + parser.getMessage() + "\n");
+  }
 }
 
