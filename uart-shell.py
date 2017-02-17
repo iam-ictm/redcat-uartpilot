@@ -12,6 +12,8 @@
 #
 
 import argparse, cmd, serial
+from random import randrange
+from timeit import default_timer as timer
 
 ENCODING = 'ascii'
 
@@ -74,6 +76,24 @@ class UARTShell(cmd.Cmd):
         'Exits the shell.'
         self.serial.close()
         return True
+
+    def do_cod(self, arg):
+        'Send controller output data. Requires speed and angle as parameters with values from -128 to 127.'
+        speed, angle = arg.split()
+        self.__send('AGCOD,' + hex(int(speed) & 0xff)[2:] + ',' + hex(int(angle) & 0xff)[2:])
+
+    def do_rcod(self, arg):
+        'Send random controller output data. Optionally specify the amount of messages to send.'
+        if len(arg) == 0:
+            count = 1
+        else:
+            count = int(arg)
+
+        start = timer()
+        for i in range(count):
+            self.do_cod(str(randrange(-128, 127, 1)) + ' ' + str(randrange(-128, 127, 1)))
+
+        print('Sending took ' + str(1000*(timer() - start)) + ' ms.')
 
     def default(self, arg):
         if arg == 'EOF':
