@@ -11,6 +11,7 @@
 #pragma once
 
 #include <stdlib.h>
+#include <string.h>
 
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
@@ -20,11 +21,17 @@
 
 namespace UARTPilot {
 
+  typedef struct Msg_COD_t {
+    int speed;
+    int steerangle;
+  };
+
   class Parser {
   public:
     Parser();
     int parse(char c);
     void debugMessage();
+    boolean getMsgCOD(Msg_COD_t *msg);
 
     inline boolean isChecksumCorrect() {
       return checksum_correct;

@@ -80,4 +80,25 @@ namespace UARTPilot {
     if (checksum_correct) Serial.print(", CORRECT)\n");
     else Serial.print(", WRONG)\n");
   }
+
+  /**
+   * Parse a COD message, and write its parameters to msg.
+   * Returns true if message was successfully parsed, false otherwise.
+   */
+  boolean Parser::getMsgCOD(Msg_COD_t *msg) {
+    char data[MSG_MAX_LEN];
+    message.toCharArray(data, MSG_MAX_LEN);
+
+    char *token;
+
+    token = strtok(data, ",");
+    if (strcmp(token, "AGCOD") != 0) return false;
+
+    token = strtok(NULL, ",");
+    msg->speed = atoi(token);
+    token = strtok(NULL, "");
+    msg->steerangle = atoi(token);
+
+    return true;
+  }
 };
