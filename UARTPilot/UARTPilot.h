@@ -33,9 +33,15 @@ namespace UARTPilot {
     void debugMessage();
     boolean getMsgCOD(Msg_COD_t *msg);
 
+#ifdef DISABLE_CHECKSUM
+    inline boolean isChecksumCorrect() {
+      return true;
+    }
+#else
     inline boolean isChecksumCorrect() {
       return checksum_correct;
     }
+#endif
 
     inline String getMessage() {
       return message;
