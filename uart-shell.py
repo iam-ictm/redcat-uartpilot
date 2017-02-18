@@ -80,7 +80,7 @@ class UARTShell(cmd.Cmd):
     def do_cod(self, arg):
         'Send controller output data. Requires speed and angle as parameters with values from -128 to 127.'
         speed, angle = arg.split()
-        self.__send('AGCOD,' + hex(int(speed) & 0xff)[2:] + ',' + hex(int(angle) & 0xff)[2:])
+        self.__send('AGCOD,' + str(int(speed)) + ',' + str(int(angle)))
 
     def do_rcod(self, arg):
         'Send random controller output data. Optionally specify the amount of messages to send.'
