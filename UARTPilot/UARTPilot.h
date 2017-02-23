@@ -24,6 +24,10 @@ namespace UARTPilot {
   typedef struct Msg_COD_t {
     int speed;
     int steerangle;
+
+    Msg_COD_t() :
+    speed(0),
+    steerangle(0) { }
   };
 
   class Parser {
@@ -56,3 +60,4 @@ namespace UARTPilot {
     String message;
   };
 };
+
