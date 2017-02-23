@@ -59,7 +59,7 @@ void loop() {
   int msg_len = -1;
   CAN_FRAME frame;
 
-  while (Serial1.available()) {
+  if (Serial1.available()) {
     msg_len = parser.parse(Serial1.read());
   }
 
