@@ -13,3 +13,9 @@ as well as some tests and helpers.
 * *count_messages* - Arduino application for testing, which counts the number of received and valid messages
 
 * *uart-shell.py* - Simple commandline interface for sending UARTPilot commands over a serial connection
+
+# Revision History
+
+## v1.0.0 (2017-02-23)
+
+* First successfull integration of the whole chan from QGroundcontrol to Hymog
