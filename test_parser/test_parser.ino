@@ -11,7 +11,7 @@
 #include <UARTPilot.h>
 
 UARTPilot::Parser parser;
-UARTPilot::Msg_COD_t* p_msg;
+UARTPilot::Msg_COD_t p_msg;
 
 /**
  * Standard arduino setup(), initialize things
@@ -19,31 +19,26 @@ UARTPilot::Msg_COD_t* p_msg;
 void setup() {
   Serial.begin(115200);
   Serial1.begin(115200);
-  p_msg = (UARTPilot::Msg_COD_t*) malloc(sizeof(p_msg));
 }
 
 /**
  * Standard arduino main loop()
  */
 void loop() {
-  int msg_len = -1;
-
   while (Serial1.available()) {
-    msg_len = parser.parse(Serial1.read());
-  }
+    if (parser.parse(Serial1.read()) > 0) {
+      parser.debugMessage();
 
-  if (msg_len > 0) {
-    parser.debugMessage();
+      if (parser.isChecksumCorrect()) {
+        Serial.print("Message: " + parser.getMessage() + "\n");
 
-    if (parser.isChecksumCorrect()) {
-      Serial.print("Message: " + parser.getMessage() + "\n");
-
-      if (parser.getMsgCOD(p_msg)) {
-        Serial.print("COD: ");
-        Serial.print(p_msg->speed);
-        Serial.print(" ");
-        Serial.println(p_msg->steerangle);
-        Serial.println();
+        if (parser.getMsgCOD(&p_msg)) {
+          Serial.print("COD: ");
+          Serial.print(p_msg.speed);
+          Serial.print(" ");
+          Serial.println(p_msg.steerangle);
+          Serial.println();
+        }
       }
     }
   }

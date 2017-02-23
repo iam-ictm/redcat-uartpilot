@@ -11,7 +11,7 @@
 #include <UARTPilot.h>
 
 UARTPilot::Parser parser;
-UARTPilot::Msg_COD_t* p_msg;
+UARTPilot::Msg_COD_t p_msg;
 
 const int pin_btn = 2;
 
@@ -36,7 +36,6 @@ void setup() {
   Serial.begin(115200);
   Serial1.begin(115200);
 
-  p_msg = (UARTPilot::Msg_COD_t*) malloc(sizeof(p_msg));
   reset();
 }
 
@@ -49,14 +48,10 @@ void loop() {
     delay(1000);
   }
 
-  int msg_len = -1;
   while (Serial1.available()) {
-    msg_len = parser.parse(Serial1.read());
-  }
-
-  if (msg_len > 0 && parser.isChecksumCorrect()) {
-    parser.getMsgCOD(p_msg);
-    count++;
+    if (parser.parse(Serial1.read()) > 0 && parser.isChecksumCorrect()) {
+      parser.getMsgCOD(&p_msg);
+      count++;
+    }
   }
 }
-
