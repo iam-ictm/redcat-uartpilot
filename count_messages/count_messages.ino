@@ -50,7 +50,7 @@ void loop() {
 
   while (Serial1.available()) {
     if (parser.parse(Serial1.read()) > 0 && parser.isChecksumCorrect()) {
-      parser.getMsgCOD(&p_msg);
+      parser.getMsgCOD(p_msg);
       count++;
     }
   }

@@ -56,7 +56,7 @@ void setup() {
 void loop() {
   if (Serial1.available()) {
     if (parser.parse(Serial1.read()) > 0 && parser.isChecksumCorrect()) {
-      parser.getMsgCOD(&p_cod);
+      parser.getMsgCOD(p_cod);
     }
   }
 

@@ -32,7 +32,7 @@ void loop() {
       if (parser.isChecksumCorrect()) {
         Serial.print("Message: " + parser.getMessage() + "\n");
 
-        if (parser.getMsgCOD(&p_msg)) {
+        if (parser.getMsgCOD(p_msg)) {
           Serial.print("COD: ");
           Serial.print(p_msg.speed);
           Serial.print(" ");
