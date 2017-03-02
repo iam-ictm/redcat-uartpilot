@@ -34,7 +34,8 @@ namespace UARTPilot {
 
       case '*':
         // start of checksum
-        if (offset >= 0 && offset < MSG_MAX_LEN) checksum_offset = offset;
+        if (offset >= 0 && offset < MSG_MAX_LEN)
+          checksum_offset = offset;
         break;
 
       case '\r': break;
@@ -44,10 +45,12 @@ namespace UARTPilot {
         // all data (including checksum)
         if (offset >= 0 && offset < MSG_MAX_LEN) {
           // append data and checksum (two bytes)
-          if (checksum_offset < 0 || offset < checksum_offset + 2) data[offset++] = c;
+          if (checksum_offset < 0 || offset < checksum_offset + 2)
+            data[offset++] = c;
 
           // only calculate parity if not part of checksum
-          if (checksum_offset < 0) parity ^= c;
+          if (checksum_offset < 0)
+            parity ^= c;
         }
 
         // message complete, calculate checksum and return
@@ -77,27 +80,25 @@ namespace UARTPilot {
     Serial.print(&data[checksum_offset]);
     Serial.print("' (calculated: ");
     Serial.print(parity, HEX);
-    if (checksum_correct) Serial.print(", CORRECT)\n");
-    else Serial.print(", WRONG)\n");
+    Serial.print(checksum_correct ? ", CORRECT)\n" : ", WRONG)\n");
   }
 
   /**
    * Parse a COD message, and write its parameters to msg.
    * Returns true if message was successfully parsed, false otherwise.
    */
-  boolean Parser::getMsgCOD(Msg_COD_t *msg) {
+  boolean Parser::getMsgCOD(Msg_COD_t &msg) {
     char data[MSG_MAX_LEN];
     message.toCharArray(data, MSG_MAX_LEN);
 
-    char *token;
-
-    token = strtok(data, ",");
-    if (strcmp(token, "AGCOD") != 0) return false;
+    char *token = strtok(data, ",");
+    if (strcmp(token, "AGCOD") != 0)
+      return false;
 
     token = strtok(NULL, ",");
-    msg->speed = atoi(token);
+    msg.speed = atoi(token);
     token = strtok(NULL, "");
-    msg->steerangle = atoi(token);
+    msg.steerangle = atoi(token);
 
     return true;
   }

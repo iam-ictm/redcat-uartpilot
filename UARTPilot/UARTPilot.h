@@ -10,9 +10,6 @@
 
 #pragma once
 
-#include <stdlib.h>
-#include <string.h>
-
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
 #endif
@@ -35,17 +32,15 @@ namespace UARTPilot {
     Parser();
     int parse(char c);
     void debugMessage();
-    boolean getMsgCOD(Msg_COD_t *msg);
+    boolean getMsgCOD(Msg_COD_t &msg);
 
+    inline boolean isChecksumCorrect() {
 #ifdef DISABLE_CHECKSUM
-    inline boolean isChecksumCorrect() {
       return true;
-    }
 #else
-    inline boolean isChecksumCorrect() {
       return checksum_correct;
-    }
 #endif
+    }
 
     inline String getMessage() {
       return message;
